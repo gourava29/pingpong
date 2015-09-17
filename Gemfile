@@ -48,7 +48,7 @@ group :development, :test do
   
 end
 
-
+gem 'capybara'
 gem 'rspec-rails'
 gem 'factory_girl'
 gem 'rails_12factor', group: :production
