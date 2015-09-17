@@ -20,7 +20,7 @@ class BookingsController < ApplicationController
                 @resp[:success] = true;
             else
                 @resp[:message] = @booking.errors[:table][0]
-                @resp[:success] = true;
+                @resp[:success] = false;
             end
         else
             @resp[:success] = false;
