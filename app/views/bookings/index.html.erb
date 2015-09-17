@@ -1,0 +1,87 @@
+
+<H1>Bookings Page</H1>
+
+<div class="col-md-6">
+        
+    <div class="alert alert-success" style="display:none;">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <span><strong>Success!</strong> Indicates a successful or positive action.</span>
+    </div>
+    <div class="form-group">
+        <label for="tableName">Select Table:</label>
+        <select class="form-control" id="tableName">
+            <% @tables.each do |table|%>
+                <option value="<%=table.id%>"><%=table.name%></option>
+            <% end %>
+        </select>
+        <p id="timing" class="">
+            Select Date:
+            <input type="text" class="form-control date start" />
+            Select Timing:
+            <input type="text" class="form-control time start" /> to
+            <input type="text" class="form-control time end" />
+        </p>
+        <input type='submit' class='btn btn-primary' id="submitBooking" value="submit"/>
+    </div>
+    <table border='1'>
+        <tr>
+            <th>Booking Id</th>
+            <th>Table Id</th>
+            <th>User Id</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+        <% @bookings.each do |booking|%>
+            <tr>
+                <td align='center'><%=booking.id%></td>    
+                <td align='center'><%=booking.table_id%></td>    
+                <td align='center'><%=booking.user_id%></td>    
+                <td align='center'><%=booking.start_time%></td>    
+                <td align='center'><%=booking.end_time%></td>    
+            </tr>
+        <% end %>
+    </table>
+    
+    
+</div>
+
+
+<script type='text/javascript'>
+    $("document").ready(function(){
+        $('#timing .time').timepicker({
+            'showDuration': true,
+            'timeFormat': 'g:ia',
+            'step': 10
+        }).on("changeTime",function(){
+            //console.log($(this).timepicker('getTime', $('#basicExample .date').datepicker("getDate")));
+        })
+    
+        $('#timing .date').datepicker({
+            'format': 'm/d/yyyy',
+            'autoclose': true,
+            'startDate': "today"
+        });
+        $("#submitBooking").click(function(){
+            var bookingDate=$('#timing .date').datepicker("getDate");
+            var obj={booking:{
+                table_id:parseInt($("#tableName").val()),
+                start_time:$("#timing .start.time").timepicker('getTime', bookingDate).getTime()/1000,
+                end_time:$("#timing .end.time").timepicker('getTime', bookingDate).getTime()/1000
+            }};
+            $.post("/bookings",obj,function(status){
+                if(status.success){
+                    $("input[type='text']").val("")
+                    $('select').prop('selectedIndex',0);
+                    $(".alert").removeClass("alert-success").removeClass("alert-danger").addClass("alert-success").show();
+                    $(".alert span").html(status.message);
+                }else{
+                    
+                    $(".alert").removeClass("alert-success").removeClass("alert-danger").addClass("alert-danger").show();
+                    $(".alert span").html(status.message);    
+                }
+                
+            })
+        });
+    })
+</script>
+
