@@ -36,8 +36,8 @@
                 <td align='center'><%=booking.id%></td>    
                 <td align='center'><%=booking.table_id%></td>    
                 <td align='center'><%=booking.user_id%></td>    
-                <td align='center'><%=booking.start_time%></td>    
-                <td align='center'><%=booking.end_time%></td>    
+                <td align='center'><%=booking.start_time.strftime("%d/%m/%y %H:%M")%></td>    
+                <td align='center'><%=booking.end_time.strftime("%d/%m/%y %H:%M")%></td>    
             </tr>
         <% end %>
     </table>
