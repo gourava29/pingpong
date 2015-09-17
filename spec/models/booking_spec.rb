@@ -5,7 +5,7 @@ RSpec.describe Booking, type: :model do
   before :each do 
     Booking.delete_all
   end
-  pending "add some examples to (or delete) #{__FILE__}"
+  #pending "add some examples to (or delete) #{__FILE__}"
    it  "should create booking when valida parameters are given" do
       curr_booking = FactoryGirl.build(:booking1)
       expect(curr_booking).to be_valid
