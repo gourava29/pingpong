@@ -2,6 +2,7 @@ class Booking < ActiveRecord::Base
     belongs_to :table
     belongs_to :user
     
+    validates :user, presence: true
     validate :table_exist
     validate :time_validator
     
