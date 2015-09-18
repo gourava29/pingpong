@@ -11,7 +11,7 @@ class BookingsController < ApplicationController
        puts @response
        @bookings.each do |booking|
            @response.push({:start_time => booking[:start_time].to_i,
-           :end_time => booking[:start_time].to_i,
+           :end_time => booking[:end_time].to_i,
            :user_id => booking[:user_id],
            :id => booking[:id],
            :table_id => booking[:table_id]})
