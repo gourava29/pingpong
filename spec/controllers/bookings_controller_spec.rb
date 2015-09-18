@@ -34,5 +34,13 @@ RSpec.describe BookingsController, type: :controller do
       json = { :format => 'json',  booking: FactoryGirl.attributes_for(:user_input_booking)}
       expect{post :create, json}.to change(Booking,:count).by(0)
    end
+   
+   it "gets all bookings" do
+       @user = FactoryGirl.create(:valid_user)
+       sign_in @user  
+       json = { :format => 'json',  booking: FactoryGirl.attributes_for(:user_input_booking)}
+       get :getAll, :format => :json
+       expect(JSON.parse(response.body).length).to eq(Booking.all().length)
+   end
   
 end
