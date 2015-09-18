@@ -1,15 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe BookingsController, type: :controller do
-  include Devise::TestHelpers
-  include Warden::Test::Helpers
-  Warden.test_mode!
-   def teardown                                         
-    Warden.test_reset!                                 
-  end  
   
   before do 
-    user => FactoryGirl.create(:valid_user) 
+    Booking.delete_all
+    Table.create(:name => "Sharath Kamal")
   end
   
   before :each do
@@ -23,19 +18,21 @@ RSpec.describe BookingsController, type: :controller do
       expect(response).to render_template("index")
   end
   
-  it "cannot create booking without loggin in" do
-      get :index
-      expect(response).to have_http_status(302)
-      expect(response).not_to be_success
-      expect(response).not_to render_template("new")
-      expect(response).to redirect_to(new_user_session_path)
-  end
+   it "creates a new Booking when created with valid data" do
+      Booking.delete_all
+      @user = FactoryGirl.create(:valid_user)
+      sign_in @user  
+      json = { :format => 'json',  booking: FactoryGirl.attributes_for(:user_input_booking)}
+      expect{post :create, json}.to change(Booking,:count).by(1)
+   end
+   
+   it "does not a new Booking with invalid data" do
+      Booking.delete_all
+      @user = FactoryGirl.create(:valid_user)
+      sign_in @user  
+      booking = FactoryGirl.create(:user_input_booking_attributes)
+      json = { :format => 'json',  booking: FactoryGirl.attributes_for(:user_input_booking)}
+      expect{post :create, json}.to change(Booking,:count).by(0)
+   end
   
-  it "can access new  after login" do
-      sign_in user
-      get :new, {}
-      expect(response).to have_http_status(200)
-      expect(response).to be_success
-      expect(response).to render_template("new")
-  end
 end

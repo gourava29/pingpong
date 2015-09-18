@@ -69,4 +69,20 @@ FactoryGirl.define do
     f.end_time "01/09/2017 08:30"
   end
   
+  factory :user_input_booking, :class => :booking do |f|
+    f.table_id 1
+    f.user_id 1
+    f.start_time "1443379200"
+    f.end_time "1443380400"
+  end
+  
+  factory :user_input_booking_attributes, :class => :booking do |f|
+    f.table_id 1
+    f.user_id 1
+    f.start_time "27/09/2015 18:40"
+    f.end_time "27/09/2015 19:00"
+  end
+  
+  
+  
 end

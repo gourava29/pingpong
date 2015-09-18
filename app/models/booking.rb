@@ -8,7 +8,7 @@ class Booking < ActiveRecord::Base
     
     
     def table_exist
-        if (Booking.where("table_id = ? AND (start_time > ? and end_time < ?)", self.table_id, self.end_time, self.start_time).count > 0)
+        if (Booking.where("table_id = ? AND (start_time < ? and end_time > ?)", self.table_id, self.end_time, self.start_time).count > 0)
             errors.add :table, "This table is booked for selected time gap"
         end
     end
